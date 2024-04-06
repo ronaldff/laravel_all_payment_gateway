@@ -1,0 +1,1 @@
+id,customerId,bill,status,address,fullname,phone
