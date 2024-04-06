@@ -1,1 +1,1 @@
-id,customerId,bill,status,address,fullname,phone
+<img src="public/assets/db_screen.png" width="128"/>
