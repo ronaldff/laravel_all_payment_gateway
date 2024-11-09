@@ -1,15 +1,8 @@
-<!doctype html>
-<html lang="en">
+@extends('layouts.layout')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>Checkout Page</title>
-    <!-- Bootstrap core CSS -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+@section('title', 'Checkout')
+
+@section('main')
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -27,9 +20,6 @@
         }
     </style>
     <!-- Custom styles for this template -->
-</head>
-
-<body class="bg-light">
     <div class="container">
         <div class="py-4 text-center">
             <h2>Checkout form</h2>
@@ -57,20 +47,18 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName">First name</label>
-                            <input type="text" class="form-control" name="firstname" id="firstName" value="Piyush"
-                                required>
+                            <input type="text" class="form-control" name="firstname" id="firstName" value="{{ auth()->user()->name }}" required readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="lastName">Last name</label>
-                            <input type="text" class="form-control" name="lastname" id="lastName" value="Shyam"
-                                required>
+                            <input type="text" class="form-control" name="lastname" id="lastName" value="ipsum" required readonly>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email"
-                            value="piyush.demo@gmail.com" required>
+                        <input type="email" class="form-control" name="email" id="email" value="{{ auth()->user()->email }}"
+                            required readonly>
                     </div>
 
                     <div class="mb-3">
@@ -175,20 +163,16 @@
                 </div>
             </div>
         </form>
-        <hr class="mb-4">
-        <footer class="text-muted text-center text-small">
-            <p class="mb-1">&copy; 2017-2020 Created By Piyush Shyam</p>
-        </footer>
     </div>
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    
+@endsection
+
+@section('scripts')
     <script>
         let milliseconds = 5000;
 
-        setTimeout(function () {
+        setTimeout(function() {
             $('.hidemessage').remove();
         }, milliseconds);
     </script>
-
-</body>
-
-</html>
+@endsection

@@ -59,10 +59,10 @@ class PaymentRepository implements PaymentRepositoryInterface
                 Order::insert([
                     "txn_id" => $charge->id,
                     "status" => "completed",
-                    "fullname" => $request->firstname . ' ' . $request->lastname,
+                    "fullname" =>auth()->user()->name,
                     "address" => $request->city . ', ' . $request->country . " ,adsafd werew, " . $request->zip . ", " . $request->state,
                     "bill" => $request->price,
-                    "customerId" => 1,
+                    "customerId" => auth()->user()->id,
                     "payment_type" => "stripe",
                     "created_at" => date('y-m-d h:i:s'),
                     "updated_at" => date('y-m-d h:i:s'),
@@ -73,10 +73,10 @@ class PaymentRepository implements PaymentRepositoryInterface
                 Order::insert([
                     "txn_id" => $charge->id,
                     "status" => "failed",
-                    "fullname" => $request->firstname . ' ' . $request->lastname,
+                    "fullname" => auth()->user()->name,
                     "address" => $request->city . ', ' . $request->country . " ,adsafd werew, " . $request->zip . ", " . $request->state,
                     "bill" => $request->price,
-                    "customerId" => 1,
+                    "customerId" => auth()->user()->id,
                     "payment_type" => "stripe",
                     "created_at" => date('y-m-d h:i:s'),
                     "updated_at" => date('y-m-d h:i:s'),
@@ -157,10 +157,10 @@ class PaymentRepository implements PaymentRepositoryInterface
             Order::insert([
                 "txn_id" => $request->txnid,
                 "status" => $orderTableStatus,
-                "fullname" => $request->firstname,
+                "fullname" => auth()->user()->name,
                 "address" => $request->address1,
                 "bill" => $request->amount,
-                "customerId" => 1,
+                "customerId" => auth()->user()->id,
                 "payment_type" => $request->payment_source,
                 "created_at" => date('y-m-d h:i:s'),
                 "updated_at" => date('y-m-d h:i:s'),
@@ -199,13 +199,13 @@ class PaymentRepository implements PaymentRepositoryInterface
 
            
             $pay_data['razorpay_order_id'] = $order['id'];
-            $pay_data['customerId'] = 1;
+            $pay_data['customerId'] = auth()->user()->id;
             $pay_data['bill'] = $price;
             $pay_data['status'] = $order['status'] == 'created' ? 'pending' : 'failed';
             $pay_data['currency'] = $order['currency'];
             $pay_data['checkout_order_id'] = $order['receipt'];
             $pay_data['payment_type'] = "razorpay";
-            $pay_data['fullname'] = "Piyush Shyam";
+            $pay_data['fullname'] = auth()->user()->name;
             $pay_data['address'] =  'Nagpur, India, adsafd werew, 440014, Maharashtra';
             $pay_data['created_at'] = date('y-m-d h:i:s');
             $pay_data['updated_at'] = date('y-m-d h:i:s');
@@ -289,13 +289,13 @@ class PaymentRepository implements PaymentRepositoryInterface
 
             if (isset($response['id']) && $response['id'] != null) {
                 $pay_data['razorpay_order_id'] = $response['id'];
-                $pay_data['customerId'] = 1;
+                $pay_data['customerId'] = auth()->user()->id;
                 $pay_data['bill'] = $price;
                 $pay_data['status'] = $response['status'] == 'CREATED' ? 'pending' : 'failed';
                 $pay_data['currency'] = "USD";
                 $pay_data['checkout_order_id'] = $checkout_order_id;
                 $pay_data['payment_type'] = "paypal";
-                $pay_data['fullname'] = "Piyush Shyam";
+                $pay_data['fullname'] = auth()->user()->name;
                 $pay_data['address'] =  'Nagpur, India, adsafd werew, 440014, Maharashtra';
                 $pay_data['created_at'] = date('y-m-d h:i:s');
                 $pay_data['updated_at'] = date('y-m-d h:i:s');
