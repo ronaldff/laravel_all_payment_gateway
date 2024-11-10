@@ -22,8 +22,8 @@ Route::middleware('auth')->group(function () {
 // socialite login
 Route::prefix('auth')->name('auth.')->controller(SocialiteController::class)->group(function () {
     // google url
-    Route::get('google','googleLogin')->name('google');
-    Route::get('google-callback','googleAuthentication')->name('google-callback');
+    Route::get('redirection/{provider}','authProviderRedirect')->name('redirection');
+    Route::get('{provider}/callback','socialAuthentication')->name('callback');
 });
 
 

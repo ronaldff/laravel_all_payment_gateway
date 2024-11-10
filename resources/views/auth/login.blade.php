@@ -1,16 +1,14 @@
 
 <style>
-    .fa-google-plus{
+    .fa-google-plus,.fa-github,.fa-facebook,.fa-linkedin{
         font-size: 32px;
-        color:rgb(211, 31, 31);
         margin:5px;
     }
-
+    .fa-google-plus{
+        color:rgb(211, 31, 31);
+    }
     .fa-facebook{
-        font-size: 32px;
         color:rgb(49, 16, 147);
-        margin:5px;
-
     }
 </style>
 <x-guest-layout>
@@ -41,8 +39,22 @@
 
         <div class="flex mt-4 justify-between w-full">
             <div>
-                <a href="{{ route('auth.google') }}"><i class="fa-brands fa-google-plus cursor-pointer"></i></a>
-                <i class="fa-brands fa-facebook cursor-pointer"></i>
+                {{-- login with google --}}
+                <a href="{{ route('auth.redirection','google') }}"><i class="fa-brands fa-google-plus cursor-pointer"></i></a>
+
+                {{-- login with facebook --}}
+                <a href="{{ route('auth.redirection','facebook') }}"><i class="fa-brands fa-facebook cursor-pointer"></i></a>
+
+                {{-- login with github --}}
+                <a href="{{ route('auth.redirection','github') }}"><i class="fa-brands fa-github cursor-pointer"></i></a>
+
+                {{-- login with github --}}
+                <a href="{{ route('auth.redirection','linkedin-openid') }}"><i class="fa-brands fa-linkedin cursor-pointer"></i></a>
+
+                
+
+                
+               
             </div>
         
             <div>

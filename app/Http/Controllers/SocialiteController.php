@@ -11,44 +11,62 @@ use Laravel\Socialite\Facades\Socialite;
 class SocialiteController extends Controller
 {
     /**
-     * Function: googleLogin
-     * Description: This function will redirect to Google
+     * Function: authProviderRedirect
+     * Description: This function will redirect to given auth provider social
      * @param NA
      * @return void
      */
-    public function googleLogin()
+    public function authProviderRedirect($provider)
     {
-        return Socialite::driver('google')->redirect();
+        if($provider){
+            return Socialite::driver($provider)->redirect();
+        }
+        
+        abort(404);
     }
 
      /**
-     * Function: googleAuthentication
-     * Description: This function will redirect authenticate the user through the google account
+     * Function: socialAuthentication
+     * Description: This function will redirect authenticate the user through the given social account
      * @param NA
      * @return void
      */
-    public function googleAuthentication()
+    public function socialAuthentication($provider)
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
 
-            $user = User::updateOrCreate([
-                'google_id' => $googleUser->id,
-            ], [
-                'name' => $googleUser->name,
-                'email' => $googleUser->email,
-                'password' => Hash::make('password@1234'),
-                'google_id' => $googleUser->id
-            ]);
-
-            if($user){
-                Auth::login($user);
-                return redirect()->route('checkout');
-            } else {
-                return redirect('/')->with('error', 'Please try again.');
+            if($provider){
+                $socialUser = Socialite::driver($provider)->user();
+                
+                if(!empty($socialUser)){
+                    $password = $provider.'@123';
+                    $email = $provider.'.'.$socialUser->email;
+                    $user = User::updateOrCreate([
+                        'auth_provider_id' => $socialUser->id,
+                    ], [
+                        'name' => $socialUser->name,
+                        'email' => trim($email),
+                        'password' => Hash::make(trim($password)),
+                        'auth_provider' => $provider,
+                        'auth_provider_id' => $socialUser->id
+                    ]);
+        
+                    if($user){
+                        Auth::login($user);
+                        return redirect()->route('checkout');
+                    } else {
+                        return redirect('/')->with('error', 'Please try again.');
+                    }
+                } else {
+                    return redirect('/')->with('error', 'Please try again.');
+                } 
             }
+            
+            abort(404);
+            
            
-        } catch (Exception $e) {
+        } catch (Laravel\Socialite\Two\InvalidStateException $e) {
+            dd($e);
             return redirect('/')->with('error', 'Please try again.');
         }
        
