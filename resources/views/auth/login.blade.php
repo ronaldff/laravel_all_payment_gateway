@@ -50,11 +50,6 @@
 
                 {{-- login with github --}}
                 <a href="{{ route('auth.redirection','linkedin-openid') }}"><i class="fa-brands fa-linkedin cursor-pointer"></i></a>
-
-                
-
-                
-               
             </div>
         
             <div>
